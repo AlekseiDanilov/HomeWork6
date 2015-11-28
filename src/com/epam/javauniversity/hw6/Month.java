@@ -13,8 +13,7 @@ public enum Month {
             }
             case FEBRUARY: {
                 Date currentDate = new Date();
-                if (currentDate.getYear() % 400 == 0 ||
-                        (currentDate.getYear() % 4 == 0 && currentDate.getYear() % 100 != 0)) {
+                if (checkCurrentYearBissextile(currentDate)) {
                     return 29;
                 }
                 return  28;
@@ -59,5 +58,9 @@ public enum Month {
             return months[0];
         }
         return months[this.ordinal() + 1];
+    }
+
+    public static boolean checkCurrentYearBissextile(Date date) {
+        return date.getYear() % 400 == 0 || (date.getYear() % 4 == 0 && date.getYear() % 100 != 0);
     }
 }
