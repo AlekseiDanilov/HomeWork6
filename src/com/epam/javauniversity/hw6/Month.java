@@ -52,4 +52,12 @@ public enum Month {
         }
         return 0;
     }
+
+    public Month getNextMonth() {
+        Month[] months = Month.values();
+        if (this.ordinal() == months.length - 1) {
+            return months[0];
+        }
+        return months[this.ordinal() + 1];
+    }
 }
