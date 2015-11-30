@@ -21,28 +21,14 @@ public class TestMonth {
     }
 
     @Test
-    public void testMonthGetNumberDayFebruaryNoBissextile() {
+    public void testMonthGetNumberDayFebruary() {
         Month month = Month.FEBRUARY;
         Date date = new Date();
         if (Month.checkCurrentYearBissextile(date)) {
             assertEquals(month.getNumberDay(), 29);
+        } else {
+            assertEquals(month.getNumberDay(), 28);
         }
-        assertEquals(month.getNumberDay(), 28);
-    }
-
-    @Test
-    public void testMonthGetNextMonthFebruary() {
-        assertEquals(Month.JANUARY.getNextMonth(), Month.FEBRUARY);
-    }
-
-    @Test
-    public void testMonthGetNextMonthJune() {
-        assertEquals(Month.MAY.getNextMonth(), Month.JUNE);
-    }
-
-    @Test
-    public void testMonthGetNextMonthJanuary() {
-        assertEquals(Month.DECEMBER.getNextMonth(), Month.JANUARY);
     }
 
     @Test
@@ -71,5 +57,20 @@ public class TestMonth {
         Date date = new Date();
         date.setYear(2016);
         assertTrue(Month.checkCurrentYearBissextile(date));
+    }
+
+    @Test
+    public void testMonthGetNextMonthFebruary() {
+        assertEquals(Month.JANUARY.getNextMonth(), Month.FEBRUARY);
+    }
+
+    @Test
+    public void testMonthGetNextMonthJune() {
+        assertEquals(Month.MAY.getNextMonth(), Month.JUNE);
+    }
+
+    @Test
+    public void testMonthGetNextMonthJanuary() {
+        assertEquals(Month.DECEMBER.getNextMonth(), Month.JANUARY);
     }
 }
