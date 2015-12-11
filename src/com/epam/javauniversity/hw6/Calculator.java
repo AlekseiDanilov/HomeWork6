@@ -1,16 +1,19 @@
 package com.epam.javauniversity.hw6;
 
+import com.epam.javauniversity.hw6.operation.*;
 import org.apache.commons.cli.*;
 
 public class Calculator {
     private int leftOperand;
     private int rightOperand;
-    private String operation;
+    private Operation operation;
 
     public Calculator(String[] args) throws ParseException {
-        if (args == null || args.length == 0) {
-            operation = "";
-            return;
+        if (args == null) {
+            throw new IllegalArgumentException("args is null");
+        }
+        if (args.length == 0) {
+            throw new IllegalArgumentException("args is empty");
         }
         Options options = new Options();
         options.addOption(OptionBuilder.
@@ -32,39 +35,28 @@ public class Calculator {
         options.addOption(OptionBuilder.
                 withLongOpt("operation").
                 isRequired().
-                withType(PatternOptionBuilder.STRING_VALUE).
+                withType(PatternOptionBuilder.CLASS_VALUE).
                 hasArg().
                 withDescription("operation").
                 withArgName("operation").
                 create("o"));
 
         CommandLineParser commandLineParser = new PosixParser();
-        CommandLine commandLine = commandLineParser.parse(options, args);
-        setLeftOperand(Integer.parseInt(commandLine.getOptionValue("left_operand")));
-        setRightOperand(Integer.parseInt(commandLine.getOptionValue("right_operand")));
-        setOperation(commandLine.getOptionValue("operation"));
-
+        try {
+            CommandLine commandLine = commandLineParser.parse(options, args);
+            setLeftOperand(Integer.parseInt(commandLine.getOptionValue("left_operand")));
+            setRightOperand(Integer.parseInt(commandLine.getOptionValue("right_operand")));
+            setOperation(commandLine.getOptionValue("operation"));
+        } catch (MissingOptionException moe) {
+            System.err.println("incorrect input");
+        }
     }
 
-    public int getResult() {
-        switch (getOperation()) {
-            case "+": {
-                return getLeftOperand() + getRightOperand();
-            }
-            case "-": {
-                return getLeftOperand() - getRightOperand();
-            }
-            case "*": {
-                return getLeftOperand() * getRightOperand();
-            }
-            case "/": {
-                if (getRightOperand() == 0) {
-                    return 0;
-                }
-                return getLeftOperand() / getRightOperand();
-            }
+    public int getResult() throws NoSuchFieldException {
+        if (operation == null) {
+            throw new NoSuchFieldException("operation is null");
         }
-        return 0;
+        return operation.calculate(getLeftOperand(), getRightOperand());
     }
 
     public int getLeftOperand() {
@@ -83,11 +75,32 @@ public class Calculator {
         this.rightOperand = rightOperand;
     }
 
-    public String getOperation() {
+    public Operation getOperation() {
         return operation;
     }
 
     public void setOperation(String operation) {
+        switch (operation) {
+            case "+": {
+                setOperation(new Addition());
+                break;
+            }
+            case "-": {
+                setOperation(new Substraction());
+                break;
+            }
+            case "*": {
+                setOperation(new Multiplication());
+                break;
+            }
+            case "/": {
+                setOperation(new Division());
+                break;
+            }
+        }
+    }
+
+    public void setOperation(Operation operation) {
         this.operation = operation;
     }
 }

@@ -4,52 +4,25 @@ import java.util.Date;
 
 public enum Month {
 
-    JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER;
+    JANUARY(31),    FEBRUARY(28),
+    MARCH(31),      APRIL(30),
+    MAY(31),        JUNE(30),
+    JULY(31),       AUGUST(31),
+    SEPTEMBER(30),  OCTOBER(31),
+    NOVEMBER(30),   DECEMBER(31);
+
+    private final int numberDay;
+
+    Month(int numberDay) {
+        this.numberDay = numberDay;
+    }
 
     public int getNumberDay() {
-        switch (this) {
-            case JANUARY: {
-                return 31;
-            }
-            case FEBRUARY: {
-                Date currentDate = new Date();
-                if (checkCurrentYearBissextile(currentDate)) {
-                    return 29;
-                }
-                return  28;
-            }
-            case MARCH: {
-                return 31;
-            }
-            case APRIL: {
-                return 30;
-            }
-            case MAY: {
-                return 31;
-            }
-            case JUNE: {
-                return 30;
-            }
-            case JULY: {
-                return 31;
-            }
-            case AUGUST: {
-                return 31;
-            }
-            case SEPTEMBER: {
-                return 30;
-            }
-            case OCTOBER: {
-                return 31;
-            }
-            case NOVEMBER: {
-                return 30;
-            }
-            case DECEMBER: {
-                return  31;
-            }
+        Date currentDate = new Date();
+        if (this == FEBRUARY && checkCurrentYearBissextile(currentDate)) {
+            return 29;
         }
-        return 0;
+        return numberDay;
     }
 
     public Month getNextMonth() {
@@ -61,6 +34,9 @@ public enum Month {
     }
 
     public static boolean checkCurrentYearBissextile(Date date) {
+        if (date == null) {
+            throw new IllegalArgumentException("date is null");
+        }
         return date.getYear() % 400 == 0 || (date.getYear() % 4 == 0 && date.getYear() % 100 != 0);
     }
 }

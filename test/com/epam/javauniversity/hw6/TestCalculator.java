@@ -8,44 +8,28 @@ import static org.junit.Assert.*;
 public class TestCalculator {
 
     @Test
-    public void testCalculatorGetResultMul() throws ParseException {
-        String[] args = {"-l", "2", "-r", "3", "-o", "*"};
-        assertEquals(new Calculator(args).getResult(), 6);
+    public void testCalculatorGetResultMul() throws ParseException, NoSuchFieldException {
+        String[] args = {"-l", "2", "-r", "4", "-o", "*"};
+        assertEquals(new Calculator(args).getResult(), 8);
     }
 
     @Test
-    public void testCalculatorGetResultAdd() throws ParseException {
-        String[] args = {"-l", "2", "-r", "3", "-o", "+"};
-        assertEquals(new Calculator(args).getResult(), 5);
+    public void testCalculatorGetResultAdd() throws ParseException, NoSuchFieldException {
+        String[] args = {"-l", "3", "-r", "7", "-o", "+"};
+        assertEquals(new Calculator(args).getResult(), 10);
     }
 
     @Test
-    public void testCalculatorGetResultDed() throws ParseException {
-        String[] args = {"-l", "2", "-r", "3", "-o", "-"};
-        assertEquals(new Calculator(args).getResult(), -1);
+    public void testCalculatorGetResultSub() throws ParseException, NoSuchFieldException {
+        String[] args = {"-l", "3", "-r", "1", "-o", "-"};
+        assertEquals(new Calculator(args).getResult(), 2);
     }
 
     @Test
-    public void testCalculatorGetResultDiv() throws ParseException {
-        String[] args = {"-l", "6", "-r", "2", "-o", "/"};
-        assertEquals(new Calculator(args).getResult(), 3);
+    public void testCalculatorGetResultDiv() throws ParseException, NoSuchFieldException {
+        String[] args = {"-l", "20", "-r", "5", "-o", "/"};
+        assertEquals(new Calculator(args).getResult(), 4);
     }
 
-    @Test
-    public void testCalculatorGetResultDivZero() throws ParseException {
-        String[] args = {"-l", "6", "-r", "0", "-o", "/"};
-        assertEquals(new Calculator(args).getResult(), 0);
-    }
 
-    @Test
-    public void testCalculatorGetResultNull() throws ParseException {
-        String[] args = null;
-        assertEquals(new Calculator(args).getResult(), 0);
-    }
-
-    @Test
-    public void testCalculatorGetResultEmpty() throws ParseException {
-        String[] args = {};
-        assertEquals(new Calculator(args).getResult(), 0);
-    }
 }
